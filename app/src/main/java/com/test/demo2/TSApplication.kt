@@ -106,16 +106,15 @@ class TSApplication : MultiDexApplication() {
         addListener()
     }
 
-    private fun initApi() {
-        val apiURL = WKSharedPreferencesUtil.getInstance().getSP("api_base_url")
-        if (TextUtils.isEmpty(apiURL)) {
-//            apiURL = ""
-//            WKApiConfig.initBaseURL(apiURL)
-            throw IllegalStateException("api_base_url 未设置，请先配置接口地址")
-        } else {
-            WKApiConfig.initBaseURLIncludeIP(apiURL)
-        }
+private fun initApi() {
+    var apiURL = WKSharedPreferencesUtil.getInstance().getSP("api_base_url")
+    if (TextUtils.isEmpty(apiURL)) {
+        apiURL = "http://192.168.1.97:8090" // 👈 这里填您服务器的公网 IP 或域名
+        WKSharedPreferencesUtil.getInstance().putSP("api_base_url", apiURL)
     }
+    WKApiConfig.initBaseURLIncludeIP(apiURL)
+}
+
 
     private fun getAppPackageName(): String {
         return packageName  // 动态获取实际的 applicationId
